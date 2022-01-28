@@ -1,0 +1,11 @@
+{
+  "expo": {
+    "name": "streameasy-1340",
+    "slug": "streameasy-1340",
+    "version": "1.0.0",
+    "assetBundlePatterns": [
+      "**/*"
+    ]
+  },
+  "name": "streameasy-1340"
+}
