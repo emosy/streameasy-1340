@@ -1,16 +1,4 @@
 {
-    "expo": {
-        "name": "streameasy-1340",
-        "slug": "streameasy-1340",
-        "version": "1.0.0",
-        "assetBundlePatterns": ["**/*"],
-        "orientation": "landscape"
-    },
-    "dependencies": {
-        "node-fetch": ">=2.6.7"
-    },
-    "devDependencies": {
-        "node-fetch": ">=2.6.7"
-    },
-    "name": "streameasy-1340"
+  "name": "iShowRN",
+  "displayName": "iShowRN"
 }
