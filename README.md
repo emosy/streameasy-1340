@@ -23,3 +23,20 @@ A simplified streaming application for iOS and Android that gives users the powe
 ### Known Issues
 * N/A
 ---
+## v0.3.0
+### Features
+* N/A
+### Bug Fixes
+* N/A
+### Known Issues
+* N/A
+---
+## v0.4.0
+### Features
+* Adds required UI for the user to provide stream location
+* Adds required UI for the user to edit stream settings
+### Bug Fixes
+* N/A
+### Known Issues
+* N/A
+---
