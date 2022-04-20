@@ -6,16 +6,18 @@ import androidx.core.app.ActivityCompat;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.View;
 import android.view.WindowManager;
-import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.pedro.encoder.input.gl.SpriteGestureController;
@@ -29,7 +31,7 @@ public class MainActivity extends AppCompatActivity implements ConnectCheckerRtm
         SurfaceHolder.Callback, View.OnTouchListener  {
 
     private RtmpCamera1 rtmpCamera1;
-    private Button streamButton;
+    private ImageButton imgbtnStream, imgbtnSettings;
     private EditText etUrl;
 
     private final SpriteGestureController spriteGestureController = new SpriteGestureController();
@@ -59,7 +61,8 @@ public class MainActivity extends AppCompatActivity implements ConnectCheckerRtm
         openGlView.setMinimumHeight(1080);
         openGlView.setMinimumWidth(1920);
 
-        streamButton = findViewById(R.id.streamButton);
+        imgbtnStream = findViewById(R.id.imgbtn_stream);
+        imgbtnSettings = findViewById(R.id.imgbtn_settings);
         etUrl = findViewById(R.id.editTextTextPersonName);
         etUrl.setHint("Server Address");
 
@@ -69,13 +72,12 @@ public class MainActivity extends AppCompatActivity implements ConnectCheckerRtm
         openGlView.getHolder().addCallback(this);
         openGlView.setOnTouchListener(this);
 
-        streamButton.setOnClickListener(new View.OnClickListener() {
+        imgbtnStream.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 if (!rtmpCamera1.isStreaming()) {
                     if (rtmpCamera1.prepareAudio() && rtmpCamera1.prepareVideo(1920, 1080,  30, 6500 * 1024, 0)) {
-                        streamButton.setText("Stop Streaming");
+                        imgbtnStream.setImageResource(R.drawable.ic_stream_blinking);
                         rtmpCamera1.startStream("rtmp://36bay2.tulix.tv/ryanios/channel4");
                         setTextToStream();
 
@@ -84,9 +86,17 @@ public class MainActivity extends AppCompatActivity implements ConnectCheckerRtm
                                 Toast.LENGTH_SHORT).show();
                     }
                 } else {
-                    streamButton.setText("Stream");
+                    imgbtnStream.setImageResource(R.drawable.ic_stream_off);
                     rtmpCamera1.stopStream();
                 }
+            }
+        });
+
+        imgbtnSettings.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
+                MainActivity.this.startActivity(intent);
             }
         });
 
@@ -121,7 +131,7 @@ public class MainActivity extends AppCompatActivity implements ConnectCheckerRtm
             public void run() {
                 Toast.makeText(MainActivity.this, "Auth error", Toast.LENGTH_SHORT).show();
                 rtmpCamera1.stopStream();
-                streamButton.setText("Stream");
+                imgbtnStream.setImageResource(R.drawable.ic_stream_off);
             }
         });
     }
@@ -148,7 +158,7 @@ public class MainActivity extends AppCompatActivity implements ConnectCheckerRtm
                     Toast.makeText(MainActivity.this, "Connection failed. " + s, Toast.LENGTH_SHORT)
                             .show();
                     rtmpCamera1.stopStream();
-                    streamButton.setText("Start Stream");
+                    imgbtnStream.setImageResource(R.drawable.ic_stream_off);
                 }
             }
         });
@@ -187,19 +197,19 @@ public class MainActivity extends AppCompatActivity implements ConnectCheckerRtm
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.streamButton:
+            case R.id.imgbtn_stream:
                 Toast.makeText(this, "NOT WORKING", Toast.LENGTH_SHORT).show();
                 if (!rtmpCamera1.isStreaming()) {
                     if (rtmpCamera1.isRecording()
                             || rtmpCamera1.prepareAudio() && rtmpCamera1.prepareVideo()) {
-                        streamButton.setText("Stop Streaming");
+                        imgbtnStream.setImageResource(R.drawable.ic_stream_blinking);
                         rtmpCamera1.startStream(etUrl.getText().toString());
                     } else {
                         Toast.makeText(this, "Error preparing stream, This device cant do it",
                                 Toast.LENGTH_SHORT).show();
                     }
                 } else {
-                    streamButton.setText("Stream");
+                    imgbtnStream.setImageResource(R.drawable.ic_stream_off);
                     rtmpCamera1.stopStream();
                 }
                 break;
@@ -207,7 +217,6 @@ public class MainActivity extends AppCompatActivity implements ConnectCheckerRtm
                 break;
         }
     }
-
 
     @Override
     public void surfaceCreated(@NonNull SurfaceHolder holder) {
@@ -222,17 +231,15 @@ public class MainActivity extends AppCompatActivity implements ConnectCheckerRtm
 
     @Override
     public void surfaceDestroyed(@NonNull SurfaceHolder holder) {
-
         if (rtmpCamera1.isStreaming()) {
             rtmpCamera1.stopStream();
-            streamButton.setText("Stream");
+            imgbtnStream.setImageResource(R.drawable.ic_stream_off);
         }
         rtmpCamera1.stopPreview();
     }
 
     @Override
     public boolean onTouch(View v, MotionEvent event) {
-
         if (spriteGestureController.spriteTouched(v, event)) {
             v.performClick();
             spriteGestureController.moveSprite(v, event);

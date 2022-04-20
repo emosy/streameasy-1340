@@ -1,3 +1,17 @@
 <resources>
     <string name="app_name">StreamEasy</string>
+    <string name="title_activity_settings">SettingsActivity</string>
+
+    <!-- Preference Titles -->
+    <string name="stream_destination_header">Stream Destination</string>
+    <string name="stream_quality_header">Stream Quality</string>
+    <string name="notifications_header">Notifications</string>
+
+    <!-- Stream Preferences -->
+    <string name="destination_title">Stream destination URL</string>
+
+    <!-- Notification Preferences -->
+    <string name="resolution_title">Sync email periodically</string>
+    <string name="bitrate_title">Download incoming attachments</string>
+    <string name="attachment_summary_off">Only download attachments when manually requested</string>
 </resources>
