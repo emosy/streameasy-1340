@@ -7,11 +7,15 @@
     <string name="stream_quality_header">Stream Quality</string>
     <string name="notifications_header">Notifications</string>
 
-    <!-- Stream Preferences -->
+    <!-- Essential Preferences -->
     <string name="destination_title">Stream destination URL</string>
 
-    <!-- Notification Preferences -->
-    <string name="resolution_title">Sync email periodically</string>
-    <string name="bitrate_title">Download incoming attachments</string>
-    <string name="attachment_summary_off">Only download attachments when manually requested</string>
+    <!-- Stream Quality Preferences -->
+    <string name="resolution_title">Resolution</string>
+    <string name="bitrate_title">Bitrate</string>
+
+    <!-- Background Preferences -->
+    <string name="background_title">Stream in background when minimized</string>
+    <string name="push_title">Enable push notifications</string>
+
 </resources>
