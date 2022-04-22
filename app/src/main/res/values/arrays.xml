@@ -1,27 +1,29 @@
 <resources>
-    <!-- Reply Preference -->
-    <string-array name="reply_entries">
-        <item>Reply</item>
-        <item>Reply to all</item>
+    <!-- Preser Preference -->
+    <string-array name="preset_entries">
+        <item>Low quality</item>
+        <item>Standard quality</item>
+        <item>High quality</item>
+        <item>Ludicrous quality</item>
+        <item>Custom</item>
     </string-array>
-
-    <string-array name="reply_values">
-        <item>reply</item>
-        <item>reply_all</item>
+    <string-array name="preset_values">
+        <item>low</item>
+        <item>standard</item>
+        <item>high</item>
+        <item>ludicrous</item>
+        <item>custom</item>
     </string-array>
 
     <!-- Resolution Preference -->
     <string-array name="resolution_entries">
-        <item>240p</item>
         <item>480p</item>
         <item>720p (HD)</item>
         <item>1080p (FHD)</item>
         <item>1440p (2k QHD)</item>
         <item>2160p (4k UHD)</item>
     </string-array>
-
     <string-array name="resolution_values">
-        <item>240</item>
         <item>480</item>
         <item>720</item>
         <item>1080</item>
@@ -31,12 +33,34 @@
 
     <!-- Bitrate Preference -->
     <string-array name="bitrate_entries">
-        <item>Reply</item>
+        <item>1000 kbps</item>
+        <item>6000 kbps</item>
+        <item>9000 kbps</item>
+        <item>12000 kbps</item>
+        <item>14000 kbps</item>
         <item>Custom</item>
     </string-array>
-
     <string-array name="bitrate_values">
-        <item>reply</item>
-        <item>-1</item>
+        <item>1000</item>
+        <item>6000</item>
+        <item>9000</item>
+        <item>12000</item>
+        <item>14000</item>
+        <item>custom</item>
     </string-array>
+
+    <!-- FPS Preference -->
+    <string-array name="fps_entries">
+        <item>25</item>
+        <item>30</item>
+        <item>60</item>
+        <item>Custom</item>
+    </string-array>
+    <string-array name="fps_values">
+        <item>25</item>
+        <item>30</item>
+        <item>60</item>
+        <item>custom</item>
+    </string-array>
+
 </resources>

@@ -4,6 +4,7 @@
     <PreferenceCategory app:title="@string/stream_destination_header">
 
         <EditTextPreference
+            android:inputType="textWebEmailAddress"
             app:key="destination"
             app:title="@string/destination_title"
             app:useSimpleSummaryProvider="true" />
@@ -12,31 +13,28 @@
 
     <PreferenceCategory app:title="@string/stream_quality_header">
 
-        <SwitchPreference
-            android:defaultValue="false"
-            android:key="auto"
-            android:title="Switch preference" />
+        <ListPreference
+            android:defaultValue="standard"
+            android:entries="@array/preset_entries"
+            android:entryValues="@array/preset_values"
+            android:key="preset"
+            android:title="@string/preset_title"
+            app:useSimpleSummaryProvider="true" />
         <ListPreference
             android:defaultValue="1080"
             android:entries="@array/resolution_entries"
             android:entryValues="@array/resolution_values"
-            android:key="list_preference_1"
+            android:key="resolution"
             android:title="@string/resolution_title"
             app:useSimpleSummaryProvider="true" />
-        <ListPreference
-            android:defaultValue="-1"
-            android:entries="@array/bitrate_entries"
-            android:entryValues="@array/bitrate_values"
-            android:key="bitrate"
-            android:title="@string/bitrate_title"
-            app:useSimpleSummaryProvider="true" />
         <EditTextPreference
-            android:defaultValue="Default value"
-            android:key="custom_bitrate"
+            android:defaultValue="9000"
+            android:key="bitrate"
             android:selectAllOnFocus="true"
             android:singleLine="true"
-            android:title="Edit text preference"
-            app:dependency="bitrate" />
+            android:title="@string/bitrate_title"
+            app:useSimpleSummaryProvider="true"
+            android:inputType="numberSigned"/>
 
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/notifications_header">
