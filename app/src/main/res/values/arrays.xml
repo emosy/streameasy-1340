@@ -31,6 +31,20 @@
         <item>2160</item>
     </string-array>
 
+    <!-- FPS Preference -->
+    <string-array name="fps_entries">
+        <item>25</item>
+        <item>30</item>
+        <item>60</item>
+        <item>Custom</item>
+    </string-array>
+    <string-array name="fps_values">
+        <item>25</item>
+        <item>30</item>
+        <item>60</item>
+        <item>custom</item>
+    </string-array>
+
     <!-- Bitrate Preference -->
     <string-array name="bitrate_entries">
         <item>1000 kbps</item>
@@ -46,20 +60,6 @@
         <item>9000</item>
         <item>12000</item>
         <item>14000</item>
-        <item>custom</item>
-    </string-array>
-
-    <!-- FPS Preference -->
-    <string-array name="fps_entries">
-        <item>25</item>
-        <item>30</item>
-        <item>60</item>
-        <item>Custom</item>
-    </string-array>
-    <string-array name="fps_values">
-        <item>25</item>
-        <item>30</item>
-        <item>60</item>
         <item>custom</item>
     </string-array>
 

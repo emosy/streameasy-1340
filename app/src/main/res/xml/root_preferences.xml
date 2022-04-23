@@ -21,20 +21,27 @@
             android:title="@string/preset_title"
             app:useSimpleSummaryProvider="true" />
         <ListPreference
-            android:defaultValue="1080"
+            android:defaultValue="720"
             android:entries="@array/resolution_entries"
             android:entryValues="@array/resolution_values"
             android:key="resolution"
             android:title="@string/resolution_title"
             app:useSimpleSummaryProvider="true" />
         <EditTextPreference
-            android:defaultValue="9000"
+            android:defaultValue="30"
+            android:key="fps"
+            android:selectAllOnFocus="true"
+            android:singleLine="true"
+            android:title="@string/fps_title"
+            app:useSimpleSummaryProvider="true" />
+        <EditTextPreference
+            android:defaultValue="6000"
+            android:inputType="numberSigned|number"
             android:key="bitrate"
             android:selectAllOnFocus="true"
             android:singleLine="true"
             android:title="@string/bitrate_title"
-            app:useSimpleSummaryProvider="true"
-            android:inputType="numberSigned"/>
+            app:useSimpleSummaryProvider="true" />
 
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/notifications_header">

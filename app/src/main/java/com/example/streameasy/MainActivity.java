@@ -3,21 +3,24 @@ package com.example.streameasy;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
+import androidx.preference.PreferenceManager;
 
 import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.graphics.drawable.AnimationDrawable;
 import android.os.Build;
 import android.os.Bundle;
-import android.provider.Settings;
 import android.view.MotionEvent;
+import android.view.Surface;
 import android.view.SurfaceHolder;
 import android.view.View;
 import android.view.WindowManager;
-import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.pedro.encoder.input.gl.SpriteGestureController;
@@ -27,18 +30,18 @@ import com.pedro.rtplibrary.rtmp.RtmpCamera1;
 import com.pedro.rtplibrary.view.OpenGlView;
 import com.pedro.rtmp.utils.ConnectCheckerRtmp;
 
-public class MainActivity extends AppCompatActivity implements ConnectCheckerRtmp, View.OnClickListener,
-        SurfaceHolder.Callback, View.OnTouchListener  {
+
+public class MainActivity extends AppCompatActivity implements ConnectCheckerRtmp, View.OnClickListener, SurfaceHolder.Callback, View.OnTouchListener  {
 
     private RtmpCamera1 rtmpCamera1;
     private ImageButton imgbtnStream, imgbtnSettings;
-    private EditText etUrl;
+    private TextView txtInfo;
+    SharedPreferences sharedPreferences;
 
     private final SpriteGestureController spriteGestureController = new SpriteGestureController();
 
     private final String[] PERMISSIONS = {
-            Manifest.permission.RECORD_AUDIO, Manifest.permission.CAMERA,
-            Manifest.permission.WRITE_EXTERNAL_STORAGE
+            Manifest.permission.RECORD_AUDIO, Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE
     };
 
     @Override
@@ -57,14 +60,15 @@ public class MainActivity extends AppCompatActivity implements ConnectCheckerRtm
             ActivityCompat.requestPermissions(this, PERMISSIONS, 1);
         }
 
+        updatePrefs();
+
         OpenGlView openGlView = findViewById(R.id.surfaceView);
-        openGlView.setMinimumHeight(1080);
-        openGlView.setMinimumWidth(1920);
+        openGlView.setMinimumHeight(sharedPreferences.getInt("height", 720)); // TODO
+        openGlView.setMinimumWidth(sharedPreferences.getInt("width", 1280)); // TODO
 
         imgbtnStream = findViewById(R.id.imgbtn_stream);
         imgbtnSettings = findViewById(R.id.imgbtn_settings);
-        etUrl = findViewById(R.id.editTextTextPersonName);
-        etUrl.setHint("Server Address");
+        txtInfo = findViewById(R.id.txt_info);
 
         rtmpCamera1 = new RtmpCamera1(openGlView, this);
         rtmpCamera1.setReTries(10);
@@ -75,15 +79,13 @@ public class MainActivity extends AppCompatActivity implements ConnectCheckerRtm
         imgbtnStream.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                updatePrefs();
                 if (!rtmpCamera1.isStreaming()) {
-                    if (rtmpCamera1.prepareAudio() && rtmpCamera1.prepareVideo(1920, 1080,  30, 6500 * 1024, 0)) {
-                        imgbtnStream.setImageResource(R.drawable.ic_stream_blinking);
-                        rtmpCamera1.startStream("rtmp://36bay2.tulix.tv/ryanios/channel4");
+                    if (rtmpCamera1.prepareAudio() && rtmpCamera1.prepareVideo(sharedPreferences.getInt("width", 1280), sharedPreferences.getInt("height", 720), Integer.parseInt(sharedPreferences.getString("fps", "60")), Integer.parseInt(sharedPreferences.getString("bitrate", "6000")), 0)) {
+                        rtmpCamera1.startStream(sharedPreferences.getString("destination", "rtmp://36bay2.tulix.tv/ryanios/channel4"));
                         setTextToStream();
-
                     } else {
-                        Toast.makeText(MainActivity.this, "Error preparing stream, This device cant do it",
-                                Toast.LENGTH_SHORT).show();
+                        Toast.makeText(MainActivity.this, "Error preparing stream, this device cant do it", Toast.LENGTH_SHORT).show();
                     }
                 } else {
                     imgbtnStream.setImageResource(R.drawable.ic_stream_off);
@@ -118,8 +120,7 @@ public class MainActivity extends AppCompatActivity implements ConnectCheckerRtm
         TextObjectFilterRender textObjectFilterRender = new TextObjectFilterRender();
         rtmpCamera1.getGlInterface().setFilter(textObjectFilterRender);
         textObjectFilterRender.setText("Hello world", 80, Color.RED);
-        textObjectFilterRender.setDefaultScale(1920,
-                1080);
+        textObjectFilterRender.setDefaultScale(sharedPreferences.getInt("width", 1280), sharedPreferences.getInt("height", 720));
         textObjectFilterRender.setPosition(TranslateTo.CENTER);
         spriteGestureController.setBaseObjectFilterRender(textObjectFilterRender); //Optional
     }
@@ -152,13 +153,10 @@ public class MainActivity extends AppCompatActivity implements ConnectCheckerRtm
             @Override
             public void run() {
                 if (rtmpCamera1.reTry(5000, s, null)) {
-                    Toast.makeText(MainActivity.this, "Retry", Toast.LENGTH_SHORT)
-                            .show();
+                    Toast.makeText(MainActivity.this, "Retry", Toast.LENGTH_SHORT).show();
                 } else {
-                    Toast.makeText(MainActivity.this, "Connection failed. " + s, Toast.LENGTH_SHORT)
-                            .show();
+                    Toast.makeText(MainActivity.this, "Connection failed. " + s, Toast.LENGTH_SHORT).show();
                     rtmpCamera1.stopStream();
-                    imgbtnStream.setImageResource(R.drawable.ic_stream_off);
                 }
             }
         });
@@ -175,8 +173,11 @@ public class MainActivity extends AppCompatActivity implements ConnectCheckerRtm
             @Override
             public void run() {
                 Toast.makeText(MainActivity.this, "Connection success", Toast.LENGTH_SHORT).show();
+                imgbtnStream.setImageResource(R.drawable.ic_stream_blinking);
+                ((AnimationDrawable) imgbtnStream.getDrawable()).start();
             }
         });
+
     }
 
     @Override
@@ -185,8 +186,10 @@ public class MainActivity extends AppCompatActivity implements ConnectCheckerRtm
             @Override
             public void run() {
                 Toast.makeText(MainActivity.this, "Disconnected", Toast.LENGTH_SHORT).show();
+                imgbtnStream.setImageResource(R.drawable.ic_stream_off);
             }
         });
+
     }
 
     @Override
@@ -195,27 +198,18 @@ public class MainActivity extends AppCompatActivity implements ConnectCheckerRtm
     }
 
     @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.imgbtn_stream:
-                Toast.makeText(this, "NOT WORKING", Toast.LENGTH_SHORT).show();
-                if (!rtmpCamera1.isStreaming()) {
-                    if (rtmpCamera1.isRecording()
-                            || rtmpCamera1.prepareAudio() && rtmpCamera1.prepareVideo()) {
-                        imgbtnStream.setImageResource(R.drawable.ic_stream_blinking);
-                        rtmpCamera1.startStream(etUrl.getText().toString());
-                    } else {
-                        Toast.makeText(this, "Error preparing stream, This device cant do it",
-                                Toast.LENGTH_SHORT).show();
-                    }
-                } else {
-                    imgbtnStream.setImageResource(R.drawable.ic_stream_off);
-                    rtmpCamera1.stopStream();
-                }
-                break;
-            default:
-                break;
+    public boolean onTouch(View v, MotionEvent event) {
+        if (spriteGestureController.spriteTouched(v, event)) {
+            v.performClick();
+            spriteGestureController.moveSprite(v, event);
+            spriteGestureController.scaleSprite(event);
+            return true;
         }
+        return false;
+    }
+
+    public void updatePrefs() { // TODO this may not be needed at all
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(MainActivity.this);
     }
 
     @Override
@@ -233,20 +227,32 @@ public class MainActivity extends AppCompatActivity implements ConnectCheckerRtm
     public void surfaceDestroyed(@NonNull SurfaceHolder holder) {
         if (rtmpCamera1.isStreaming()) {
             rtmpCamera1.stopStream();
-            imgbtnStream.setImageResource(R.drawable.ic_stream_off);
+//            imgbtnStream.setImageResource(R.drawable.ic_stream_off);
         }
         rtmpCamera1.stopPreview();
     }
 
     @Override
-    public boolean onTouch(View v, MotionEvent event) {
-        if (spriteGestureController.spriteTouched(v, event)) {
-            v.performClick();
-            spriteGestureController.moveSprite(v, event);
-            spriteGestureController.scaleSprite(event);
-            return true;
-        }
-        return false;
+    public void onClick(View v) {
+//        switch (v.getId()) {
+//            case R.id.imgbtn_stream:
+//                Toast.makeText(this, "NOT WORKING", Toast.LENGTH_SHORT).show();
+//                if (!rtmpCamera1.isStreaming()) {
+//                    if (rtmpCamera1.isRecording() || rtmpCamera1.prepareAudio() && rtmpCamera1.prepareVideo()) {
+//                        imgbtnStream.setImageResource(R.drawable.ic_stream_blinking);
+//                        updatePrefs();
+//                        rtmpCamera1.startStream(sharedPreferences.getString("destination", "No destination stored"));
+//                    } else {
+//                        Toast.makeText(this, "Error preparing stream, this device cant do it", Toast.LENGTH_SHORT).show();
+//                    }
+//                } else {
+//                    imgbtnStream.setImageResource(R.drawable.ic_stream_off);
+//                    rtmpCamera1.stopStream();
+//                }
+//                break;
+//            default:
+//                break;
+//        }
     }
 
 }
