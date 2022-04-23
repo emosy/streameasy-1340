@@ -127,7 +127,7 @@ public class SettingsActivity extends AppCompatActivity {
                             }
                             break;
                         case "1440":
-                            editor.putInt("width", 2560);
+                            editor.putInt("width", 3040);
                             editor.putInt("height", 1440);
                             if (b.equals("18000") && f.equals("60")) {
                                 preset.setValue("ludicrous");

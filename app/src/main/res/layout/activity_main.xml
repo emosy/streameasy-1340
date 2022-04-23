@@ -31,7 +31,7 @@
         android:layout_marginTop="16dp"
         android:text="Destination Server Not Configured"
         android:textColor="@color/design_default_color_error"
-        android:visibility="visible"
+        android:visibility="invisible"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 

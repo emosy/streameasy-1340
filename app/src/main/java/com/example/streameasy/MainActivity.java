@@ -6,6 +6,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.preference.PreferenceManager;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -15,7 +16,6 @@ import android.graphics.drawable.AnimationDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.MotionEvent;
-import android.view.Surface;
 import android.view.SurfaceHolder;
 import android.view.View;
 import android.view.WindowManager;
@@ -31,7 +31,7 @@ import com.pedro.rtplibrary.view.OpenGlView;
 import com.pedro.rtmp.utils.ConnectCheckerRtmp;
 
 
-public class MainActivity extends AppCompatActivity implements ConnectCheckerRtmp, View.OnClickListener, SurfaceHolder.Callback, View.OnTouchListener  {
+public class MainActivity extends AppCompatActivity implements ConnectCheckerRtmp, /*View.OnClickListener, */SurfaceHolder.Callback, View.OnTouchListener  {
 
     private RtmpCamera1 rtmpCamera1;
     private ImageButton imgbtnStream, imgbtnSettings;
@@ -44,6 +44,7 @@ public class MainActivity extends AppCompatActivity implements ConnectCheckerRtm
             Manifest.permission.RECORD_AUDIO, Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE
     };
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -65,6 +66,8 @@ public class MainActivity extends AppCompatActivity implements ConnectCheckerRtm
         OpenGlView openGlView = findViewById(R.id.surfaceView);
         openGlView.setMinimumHeight(sharedPreferences.getInt("height", 720)); // TODO
         openGlView.setMinimumWidth(sharedPreferences.getInt("width", 1280)); // TODO
+//        openGlView.setMinimumHeight(1080);
+//        openGlView.setMinimumWidth(1920);
 
         imgbtnStream = findViewById(R.id.imgbtn_stream);
         imgbtnSettings = findViewById(R.id.imgbtn_settings);
@@ -81,7 +84,8 @@ public class MainActivity extends AppCompatActivity implements ConnectCheckerRtm
             public void onClick(View v) {
                 updatePrefs();
                 if (!rtmpCamera1.isStreaming()) {
-                    if (rtmpCamera1.prepareAudio() && rtmpCamera1.prepareVideo(sharedPreferences.getInt("width", 1280), sharedPreferences.getInt("height", 720), Integer.parseInt(sharedPreferences.getString("fps", "60")), Integer.parseInt(sharedPreferences.getString("bitrate", "6000")), 0)) {
+                    if (rtmpCamera1.prepareAudio() && rtmpCamera1.prepareVideo(sharedPreferences.getInt("width", 1280), sharedPreferences.getInt("height", 720), Integer.parseInt(sharedPreferences.getString("fps", "60")), Integer.parseInt(sharedPreferences.getString("bitrate", "6000")), 0)) { // TODO
+//                    if (rtmpCamera1.prepareAudio() && rtmpCamera1.prepareVideo(1920, 1080, 30, 6500 * 1024, 0)) {
                         rtmpCamera1.startStream(sharedPreferences.getString("destination", "rtmp://36bay2.tulix.tv/ryanios/channel4"));
                         setTextToStream();
                     } else {
@@ -120,7 +124,8 @@ public class MainActivity extends AppCompatActivity implements ConnectCheckerRtm
         TextObjectFilterRender textObjectFilterRender = new TextObjectFilterRender();
         rtmpCamera1.getGlInterface().setFilter(textObjectFilterRender);
         textObjectFilterRender.setText("Hello world", 80, Color.RED);
-        textObjectFilterRender.setDefaultScale(sharedPreferences.getInt("width", 1280), sharedPreferences.getInt("height", 720));
+        textObjectFilterRender.setDefaultScale(sharedPreferences.getInt("width", 1280), sharedPreferences.getInt("height", 720)); // TODO
+//        textObjectFilterRender.setDefaultScale(1920, 1080);
         textObjectFilterRender.setPosition(TranslateTo.CENTER);
         spriteGestureController.setBaseObjectFilterRender(textObjectFilterRender); //Optional
     }
@@ -219,7 +224,8 @@ public class MainActivity extends AppCompatActivity implements ConnectCheckerRtm
 
     @Override
     public void surfaceChanged(@NonNull SurfaceHolder holder, int format, int width, int height) {
-        rtmpCamera1.startPreview(1920, 1080);
+//        rtmpCamera1.startPreview(1920, 1080); // TODO
+        rtmpCamera1.startPreview(sharedPreferences.getInt("width", 1280), sharedPreferences.getInt("height", 720));
         setTextToStream();
     }
 
@@ -227,32 +233,9 @@ public class MainActivity extends AppCompatActivity implements ConnectCheckerRtm
     public void surfaceDestroyed(@NonNull SurfaceHolder holder) {
         if (rtmpCamera1.isStreaming()) {
             rtmpCamera1.stopStream();
-//            imgbtnStream.setImageResource(R.drawable.ic_stream_off);
+            imgbtnStream.setImageResource(R.drawable.ic_stream_off);
         }
         rtmpCamera1.stopPreview();
-    }
-
-    @Override
-    public void onClick(View v) {
-//        switch (v.getId()) {
-//            case R.id.imgbtn_stream:
-//                Toast.makeText(this, "NOT WORKING", Toast.LENGTH_SHORT).show();
-//                if (!rtmpCamera1.isStreaming()) {
-//                    if (rtmpCamera1.isRecording() || rtmpCamera1.prepareAudio() && rtmpCamera1.prepareVideo()) {
-//                        imgbtnStream.setImageResource(R.drawable.ic_stream_blinking);
-//                        updatePrefs();
-//                        rtmpCamera1.startStream(sharedPreferences.getString("destination", "No destination stored"));
-//                    } else {
-//                        Toast.makeText(this, "Error preparing stream, this device cant do it", Toast.LENGTH_SHORT).show();
-//                    }
-//                } else {
-//                    imgbtnStream.setImageResource(R.drawable.ic_stream_off);
-//                    rtmpCamera1.stopStream();
-//                }
-//                break;
-//            default:
-//                break;
-//        }
     }
 
 }
