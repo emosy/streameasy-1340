@@ -20,29 +20,21 @@
         <item>480p</item>
         <item>720p (HD)</item>
         <item>1080p (FHD)</item>
-        <item>1440p (2k QHD)</item>
-        <item>2160p (4k UHD)</item>
     </string-array>
     <string-array name="resolution_values">
         <item>480</item>
         <item>720</item>
         <item>1080</item>
-        <item>1440</item>
-        <item>2160</item>
     </string-array>
 
     <!-- FPS Preference -->
     <string-array name="fps_entries">
-        <item>25</item>
+        <item>15</item>
         <item>30</item>
-        <item>60</item>
-        <item>Custom</item>
     </string-array>
     <string-array name="fps_values">
-        <item>25</item>
+        <item>15</item>
         <item>30</item>
-        <item>60</item>
-        <item>custom</item>
     </string-array>
 
     <!-- Bitrate Preference -->

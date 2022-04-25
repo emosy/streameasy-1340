@@ -32,6 +32,7 @@ public class SettingsActivity extends AppCompatActivity {
     // corrects behavior of action bar back button (does not work without this method)
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+
         switch (item.getItemId()) {
             case android.R.id.home:
                 this.finish();
@@ -41,8 +42,8 @@ public class SettingsActivity extends AppCompatActivity {
     }
 
     public static class SettingsFragment extends PreferenceFragmentCompat implements SharedPreferences.OnSharedPreferenceChangeListener {
-        ListPreference preset, resolution;
-        EditTextPreference destination, fps, bitrate;
+        ListPreference preset, resolution, fps;
+        EditTextPreference destination, bitrate, bitrate_audio, sample_rate;
 
         @Override
         public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
@@ -52,6 +53,9 @@ public class SettingsActivity extends AppCompatActivity {
             resolution = findPreference("resolution");
             fps = findPreference("fps");
             bitrate = findPreference("bitrate");
+            destination = findPreference("destination");
+            bitrate_audio = findPreference("bitrate_audio");
+            sample_rate = findPreference("sample_rate");
         }
 
         @Override
@@ -74,23 +78,27 @@ public class SettingsActivity extends AppCompatActivity {
                     switch (v) {
                         case "low":
                             resolution.setValue("480");
-                            fps.setText("30");
+                            fps.setValue("30");
                             bitrate.setText("2000");
+                            bitrate_audio.setText("96");
                             break;
                         case "standard":
                             resolution.setValue("720");
-                            fps.setText("30");
+                            fps.setValue("30");
                             bitrate.setText("6000");
+                            bitrate_audio.setText("128");
                             break;
                         case "high":
                             resolution.setValue("1080");
-                            fps.setText("30");
+                            fps.setValue("30");
                             bitrate.setText("9000");
+                            bitrate_audio.setText("192");
                             break;
                         case "ludicrous":
-                            resolution.setValue("1440");
-                            fps.setText("60");
+                            resolution.setValue("1080");
+                            fps.setValue("30");
                             bitrate.setText("18000");
+                            bitrate_audio.setText("256");
                             break;
                         case "custom":
                         default:

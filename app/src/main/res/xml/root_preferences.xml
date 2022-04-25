@@ -27,12 +27,14 @@
             android:key="resolution"
             android:title="@string/resolution_title"
             app:useSimpleSummaryProvider="true" />
-        <EditTextPreference
+        <ListPreference
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:defaultValue="30"
+            android:entries="@array/fps_entries"
+            android:entryValues="@array/fps_values"
             android:key="fps"
-            android:selectAllOnFocus="true"
-            android:singleLine="true"
-            android:title="@string/fps_title"
+            android:title="FPS"
             app:useSimpleSummaryProvider="true" />
         <EditTextPreference
             android:defaultValue="6000"
@@ -44,17 +46,27 @@
             app:useSimpleSummaryProvider="true" />
 
     </PreferenceCategory>
-    <PreferenceCategory android:title="@string/notifications_header">
+    <PreferenceCategory app:title="Audio Quality">
 
-        <SwitchPreference
-            android:defaultValue="false"
-            android:key="background"
-            android:title="@string/background_title" />
-        <SwitchPreference
-            android:defaultValue="false"
-            android:key="push"
-            android:title="@string/push_title"
-            app:dependency="background" />
+        <EditTextPreference
+            android:defaultValue="320"
+            android:inputType="numberSigned|number"
+            android:key="bitrate_audio"
+            android:selectAllOnFocus="true"
+            android:singleLine="true"
+            android:title="@string/bitrate_title"
+            app:useSimpleSummaryProvider="true" />
+        <EditTextPreference
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:defaultValue="44.1"
+            android:inputType="numberSigned|number"
+            android:key="sample_rate"
+            android:selectAllOnFocus="true"
+            android:singleLine="true"
+            android:title="Sample Rate (khz)"
+            app:useSimpleSummaryProvider="true" />
+
     </PreferenceCategory>
 
 </PreferenceScreen>

@@ -63,6 +63,7 @@ public class MainActivity extends AppCompatActivity implements ConnectCheckerRtm
 
         updatePrefs();
 
+
         OpenGlView openGlView = findViewById(R.id.surfaceView);
         openGlView.setMinimumHeight(sharedPreferences.getInt("height", 720)); // TODO
         openGlView.setMinimumWidth(sharedPreferences.getInt("width", 1280)); // TODO
@@ -73,8 +74,17 @@ public class MainActivity extends AppCompatActivity implements ConnectCheckerRtm
         imgbtnSettings = findViewById(R.id.imgbtn_settings);
         txtInfo = findViewById(R.id.txt_info);
 
+        if (!sharedPreferences.getString("destination", "Not Set").equals("Not Set") && !sharedPreferences.getString("destination", "Not Set").equals("")) {
+            txtInfo.setText("Destination: " + sharedPreferences.getString("destination", "Not Set"));
+            txtInfo.setTextColor(Color.GREEN);
+        } else {
+            txtInfo.setText("Destination Server Not Configured");
+            txtInfo.setTextColor(Color.RED);
+        }
+
         rtmpCamera1 = new RtmpCamera1(openGlView, this);
         rtmpCamera1.setReTries(10);
+
 
         openGlView.getHolder().addCallback(this);
         openGlView.setOnTouchListener(this);
@@ -84,16 +94,24 @@ public class MainActivity extends AppCompatActivity implements ConnectCheckerRtm
             public void onClick(View v) {
                 updatePrefs();
                 if (!rtmpCamera1.isStreaming()) {
-                    if (rtmpCamera1.prepareAudio() && rtmpCamera1.prepareVideo(sharedPreferences.getInt("width", 1280), sharedPreferences.getInt("height", 720), Integer.parseInt(sharedPreferences.getString("fps", "60")), Integer.parseInt(sharedPreferences.getString("bitrate", "6000")), 0)) { // TODO
-//                    if (rtmpCamera1.prepareAudio() && rtmpCamera1.prepareVideo(1920, 1080, 30, 6500 * 1024, 0)) {
-                        rtmpCamera1.startStream(sharedPreferences.getString("destination", "rtmp://36bay2.tulix.tv/ryanios/channel4"));
-                        setTextToStream();
+                    if (rtmpCamera1.prepareAudio(Integer.parseInt((sharedPreferences.getString("bitrate_audio", "128"))) * 1024,
+                            Integer.parseInt((sharedPreferences.getString("sample_rate", "48"))) * 1024, true, false, false)
+                            && rtmpCamera1.prepareVideo(sharedPreferences.getInt("width", 1280),
+                            sharedPreferences.getInt("height", 720), Integer.parseInt(sharedPreferences.getString("fps", "60")),
+                            Integer.parseInt(sharedPreferences.getString("bitrate", "6000") ) * 1024, 0)) { // TODO
+                        if (sharedPreferences.getString("destination", "Not Set").equals("Not Set") || sharedPreferences.getString("destination", "Not Set").equals("")) {
+                            Toast.makeText(MainActivity.this, "Stream Server Not Configured", Toast.LENGTH_SHORT).show();
+                        } else {
+                            rtmpCamera1.startStream(sharedPreferences.getString("destination", "Not Set"));
+                        }
+
                     } else {
                         Toast.makeText(MainActivity.this, "Error preparing stream, this device cant do it", Toast.LENGTH_SHORT).show();
                     }
                 } else {
                     imgbtnStream.setImageResource(R.drawable.ic_stream_off);
                     rtmpCamera1.stopStream();
+                    MainActivity.this.recreate();
                 }
             }
         });
@@ -162,6 +180,8 @@ public class MainActivity extends AppCompatActivity implements ConnectCheckerRtm
                 } else {
                     Toast.makeText(MainActivity.this, "Connection failed. " + s, Toast.LENGTH_SHORT).show();
                     rtmpCamera1.stopStream();
+                    MainActivity.this.recreate();
+
                 }
             }
         });
@@ -192,6 +212,7 @@ public class MainActivity extends AppCompatActivity implements ConnectCheckerRtm
             public void run() {
                 Toast.makeText(MainActivity.this, "Disconnected", Toast.LENGTH_SHORT).show();
                 imgbtnStream.setImageResource(R.drawable.ic_stream_off);
+                MainActivity.this.recreate();
             }
         });
 
@@ -226,16 +247,27 @@ public class MainActivity extends AppCompatActivity implements ConnectCheckerRtm
     public void surfaceChanged(@NonNull SurfaceHolder holder, int format, int width, int height) {
 //        rtmpCamera1.startPreview(1920, 1080); // TODO
         rtmpCamera1.startPreview(sharedPreferences.getInt("width", 1280), sharedPreferences.getInt("height", 720));
-        setTextToStream();
     }
 
     @Override
     public void surfaceDestroyed(@NonNull SurfaceHolder holder) {
         if (rtmpCamera1.isStreaming()) {
             rtmpCamera1.stopStream();
+            MainActivity.this.recreate();
             imgbtnStream.setImageResource(R.drawable.ic_stream_off);
         }
         rtmpCamera1.stopPreview();
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        MainActivity.this.recreate();
+
+    }
 }
