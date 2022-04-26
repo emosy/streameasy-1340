@@ -1,0 +1,58 @@
+<resources>
+    <!-- Preser Preference -->
+    <string-array name="preset_entries">
+        <item>Low quality</item>
+        <item>Standard quality</item>
+        <item>High quality</item>
+        <item>Ludicrous quality</item>
+        <item>Custom</item>
+    </string-array>
+    <string-array name="preset_values">
+        <item>low</item>
+        <item>standard</item>
+        <item>high</item>
+        <item>ludicrous</item>
+        <item>custom</item>
+    </string-array>
+
+    <!-- Resolution Preference -->
+    <string-array name="resolution_entries">
+        <item>480p</item>
+        <item>720p (HD)</item>
+        <item>1080p (FHD)</item>
+    </string-array>
+    <string-array name="resolution_values">
+        <item>480</item>
+        <item>720</item>
+        <item>1080</item>
+    </string-array>
+
+    <!-- FPS Preference -->
+    <string-array name="fps_entries">
+        <item>15</item>
+        <item>30</item>
+    </string-array>
+    <string-array name="fps_values">
+        <item>15</item>
+        <item>30</item>
+    </string-array>
+
+    <!-- Bitrate Preference -->
+    <string-array name="bitrate_entries">
+        <item>1000 kbps</item>
+        <item>6000 kbps</item>
+        <item>9000 kbps</item>
+        <item>12000 kbps</item>
+        <item>14000 kbps</item>
+        <item>Custom</item>
+    </string-array>
+    <string-array name="bitrate_values">
+        <item>1000</item>
+        <item>6000</item>
+        <item>9000</item>
+        <item>12000</item>
+        <item>14000</item>
+        <item>custom</item>
+    </string-array>
+
+</resources>

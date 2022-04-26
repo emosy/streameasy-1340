@@ -1,0 +1,23 @@
+<resources>
+    <string name="app_name">StreamEasy</string>
+    <string name="title_activity_settings">SettingsActivity</string>
+
+    <!-- Preference Titles -->
+    <string name="stream_destination_header">Stream Destination</string>
+    <string name="stream_quality_header">Stream Quality</string>
+    <string name="notifications_header">Notifications</string>
+
+    <!-- Essential Preferences -->
+    <string name="destination_title">Stream destination URL</string>
+
+    <!-- Stream Quality Preferences -->
+    <string name="preset_title">Preset</string>
+    <string name="resolution_title">Resolution</string>
+    <string name="fps_title">Framerate (fps)</string>
+    <string name="bitrate_title">Bitrate (kbps)</string>
+
+    <!-- Background Preferences -->
+    <string name="background_title">Stream in background when minimized</string>
+    <string name="push_title">Enable push notifications</string>
+
+</resources>
