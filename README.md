@@ -1,7 +1,7 @@
 # StreamEasy
 A simplified streaming application written in Java for native Android. It allows easy streaming of the device's camera to any given RTMP server with just a press of a button. You can check our latest release notes [here](https://github.com/emosy/streameasy-1340#release-notes).
 
-![Version: v0.5.0](https://img.shields.io/badge/Version-v0.5.0-yellow.svg) [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
+![Version: v1.0.0](https://img.shields.io/badge/Version-v0.5.0-yellow.svg) [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
 # Installation Guide
 How to setup and install Streameasy. This section is divided into two parts, the first part goes over downloading, setting up, and building the application and its development environment using Android Studio. The second section covers how to install the application APK, which covers how to install either the APK you built yourself or how to install the included APK. If you want to install the included APK without having to go through the source code, then you can skip to the [APK installation](https://github.com/emosy/streameasy-1340#apk-installation) section.
 ## Setting up Environment in Android Studio
@@ -52,7 +52,7 @@ If the APK fails to install on your device, the two likely causes are:
   * You may also be using a phone with unsupported hardware.
 * If you are using a supported phone and the `Package Manager` still gives you an error while installing, you may want to make sure that you're allowing your device to install packages from unkown sources. You can find a detailed guide [here](https://www.appaloosa.io/guides/how-to-install-apps-from-unknown-sources-in-android/).
 # Release Notes
-## v0.5.0 <i>(Latest)</i>
+## v1.0.0 <i>(Latest)</i>
 ### Features
 * Adds Audio Settings to the Settings Menu
   * Adds Sample Rate and Audio Bit Rate
@@ -62,6 +62,13 @@ If the APK fails to install on your device, the two likely causes are:
 * Adds the ability for the stream destination to be saved automatically upon change
 * Adds an indicator to show the user the current Stream Destination on the main screen
 * Adds the ability for the Stream Destination indicator to change color based on whether it's setup or not
+* Adds required UI for the user to provide stream location
+* Adds required UI for the user to edit stream settings
+* 'Stream' button begins and ends streaming
+* Error dialogue appears when streaming fails
+* 'Stream' button turns red while streaming to better convey status (as opposed to blinking white)
+* Full screen live camera preview
+* 'Stream' button to toggle video streaming
 ### Bug Fixes
 * Fixes a bug that required the app to be restarted after the stream has ended to be able to initiate another stream.
 * Fixed a bug where the Stream Destination text on the main menu wouldn't change after updating the settings.
@@ -69,44 +76,3 @@ If the APK fails to install on your device, the two likely causes are:
 * The dropdown list for the resulotions might show resolutions not supported by the device's camera, and will show a black screen if selected.
 * There is no support for text/image overlays, which is required for adding a scoreboard feature.
 * Lacks the ability to switch to the front camera.
----
-## v0.4.0
-### Features
-* Adds required UI for the user to provide stream location
-* Adds required UI for the user to edit stream settings
-### Bug Fixes
-* N/A
-### Known Issues
-* N/A
----
-## v0.3.0
-### Features
-* N/A
-### Bug Fixes
-* N/A
-### Known Issues
-* N/A
----
-## v0.2.0
-### Features
-* 'Stream' button begins and ends streaming
-* Error dialogue appears when streaming fails
-* 'Stream' button turns red while streaming to better convey status (as opposed to blinking white)
-### Bug Fixes
-* fixed 'Stream' button not indicating active streaming
-* fixed 'Stream' button not toggling properly
-### Known Issues
-* N/A
----
-## v0.1.0
-### Features
-* Full screen live camera preview
-* 'Stream' button to toggle video streaming
-### Bug Fixes
-* N/A
-### Known Issues
-* 'Stream' button does not blink while streaming
-* 'Stream' button can be toggled on but not toggled off
-
-
-
