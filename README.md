@@ -4,7 +4,7 @@ A simplified streaming application written in Java for native Android. It allows
 ![Version: v0.5.0](https://img.shields.io/badge/Version-v0.5.0-yellow.svg) [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
 # Installation Guide
 How to setup and install Streameasy. This section is divided into two parts, the first part goes over downloading, setting up, and building the application and its development environment using Android Studio. The second section covers how to install the application APK, which covers how to install either the APK you built yourself or how to install the included APK. If you want to install the included APK without having to go through the source code, then you can skip to the [APK installation](https://github.com/emosy/streameasy-1340#apk-installation) section.
-## Setting up Android Studio
+## Setting up Environment in Android Studio
 This section will cover how to set up the development environment and build the application using Android Studio. This process should be similar for both Windows and Mac users. If you want to install the APK directly without having the build the source code, you should skip this section and reference the APK Installation section.
 ### Prerequisites
 Please go through this list of prerequisites and make sure that you have everything required to ensure a smooth setup process.
