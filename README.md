@@ -1,7 +1,7 @@
 # StreamEasy
-A simplified streaming application for iOS and Android that gives users the power to stream live video from their phone to a custom destination.
+A simplified streaming application written in Java for native Android. It allows easy streaming of the device's camera to any given RTMP server with just a press of a button.
 # Installation Guide
-How to setup and install Streameasy. This section is divided into two parts, the first part goes over downloading, setting up, and building the application and its development environment using Android Studio. The second section covers how to install the included already-built APK if you do not wish to go through the source code.
+How to setup and install Streameasy. This section is divided into two parts, the first part goes over downloading, setting up, and building the application and its development environment using Android Studio. The second section covers how to install the included already-built APK if you do not wish to go through the source code (you can skip to the [APK installation](https://github.com/emosy/streameasy-1340#apk-installation) section if you wish).
 ## Setting up Android Studio
 This section will cover how to set up the development environment and build the application using Android Studio. This process should be similar for both Windows and Mac users. If you want to install the APK directly without having the build the source code, you should skip this section and reference the APK Installation section.
 ### Prerequisites
